@@ -20,6 +20,7 @@ from board_games import views
 
 router = routers.DefaultRouter()
 router.register(r'countries', views.CountryViewSet)
+router.register(r'categories', views.CategoriesViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),

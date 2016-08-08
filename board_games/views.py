@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
+from rest_framework.parsers import JSONParser
 from board_games.models import *
 from board_games.serializers import *
 
@@ -15,3 +16,25 @@ class CountryViewSet(viewsets.ModelViewSet):
 		
 		serializer = self.get_serializer(cities, many=True)
 		return Response(serializer.data)
+
+class CategoriesViewSet(viewsets.ModelViewSet):
+	queryset = Category.objects.all()
+	serializer_class = CategorySerializer
+
+	@detail_route(methods=['get', 'post'])
+	def posts(self, request, pk):
+		if request.method == 'POST':
+			data = JSONParser().parse(request)
+			data['category'] = pk
+			serializer = PostsSerializer(data = data)
+			if serializer.is_valid():
+				serializer.save()
+				return Response(serializer.data)
+			else:
+				return Response(serializer.errors, status = 400)
+
+		if request.method == 'GET':
+			posts = Post.objects.filter(category = self.get_object())
+
+			serializer = PostsSerializer(posts, many=True)
+			return Response(serializer.data)
