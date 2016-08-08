@@ -21,11 +21,6 @@ class Country(models.Model):
 
 class City(models.Model):
     internal_id = models.IntegerField()
-    country = models.ForeignKey('Country')
+    country = models.ForeignKey('Country', related_name='cities')
     name = models.CharField(max_length=50)
-
-class CustomUser(User):
-    city = models.ForeignKey('City')
-
-    objects = UserManager()
 
