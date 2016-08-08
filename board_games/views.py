@@ -17,6 +17,10 @@ class CountryViewSet(viewsets.ModelViewSet):
 		serializer = self.get_serializer(cities, many=True)
 		return Response(serializer.data)
 
+class PostsViewSet(viewsets.ModelViewSet):
+	queryset = Post.objects.all()
+	serializer_class = PostsSerializer
+
 class CategoriesViewSet(viewsets.ModelViewSet):
 	queryset = Category.objects.all()
 	serializer_class = CategorySerializer
@@ -26,6 +30,8 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 		if request.method == 'POST':
 			data = JSONParser().parse(request)
 			data['category'] = pk
+			data['is_reviewed'] = 'false'
+			data['is_starred'] = 'false'
 			serializer = PostsSerializer(data = data)
 			if serializer.is_valid():
 				serializer.save()
