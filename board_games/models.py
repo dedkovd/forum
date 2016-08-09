@@ -9,7 +9,6 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     subtitle = models.CharField(max_length=100)
     text = models.TextField()
-    is_starred = models.BooleanField()
     is_reviewed = models.BooleanField()
 
 class Image(models.Model):

@@ -31,7 +31,6 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 			data = JSONParser().parse(request)
 			data['category'] = pk
 			data['is_reviewed'] = 'false'
-			data['is_starred'] = 'false'
 			serializer = PostsSerializer(data = data)
 			if serializer.is_valid():
 				serializer.save()
