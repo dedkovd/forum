@@ -10,6 +10,7 @@ class Post(models.Model):
     subtitle = models.CharField(max_length=100)
     text = models.TextField()
     is_reviewed = models.BooleanField()
+    creator = models.ForeignKey('CustomUser')
 
 class Image(models.Model):
     image_file = models.ImageField(upload_to = 'images/')
@@ -24,3 +25,8 @@ class City(models.Model):
     country = models.ForeignKey('Country', related_name='cities')
     name = models.CharField(max_length=50)
 
+class CustomUser(User):
+    city = models.ForeignKey('City')
+    starred_posts = models.ManyToManyField('Post')
+
+    objects = UserManager()

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import detail_route, api_view
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from board_games.models import *
@@ -43,3 +43,19 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 
 			serializer = PostsSerializer(posts, many=True)
 			return Response(serializer.data)
+
+@api_view(['POST'])
+def create_user(request):
+	serializer = CustomUserSerializer(data = request.data)
+	if serializer.is_valid():
+		u = CustomUser.objects.create_user(
+				serializer.data['username'],
+				serializer.data['email'],
+				serializer.data['password'],
+				city = City.objects.get(pk=serializer.data['city'])
+				)
+		u.city = City.objects.get(pk=serializer.data['city'])
+		u.save()
+		return Response(serializer.data)
+	else:
+		return Response(serializer.errors, status = 400)
