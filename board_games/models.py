@@ -11,11 +11,11 @@ class Post(models.Model):
     text = models.TextField()
     is_reviewed = models.BooleanField(default = False)
     owner = models.ForeignKey('CustomUser')
-    replie_to = models.ForeignKey('Post', null = True, blank = True)
+    reply_to = models.ForeignKey('Post', null = True, blank = True)
 
 class Image(models.Model):
     image_file = models.ImageField(upload_to = 'images/')
-    post = models.ForeignKey('Post')
+    parent_post = models.ForeignKey('Post')
 
 class Country(models.Model):
     internal_id = models.IntegerField()

@@ -23,6 +23,7 @@ router = routers.DefaultRouter()
 router.register(r'countries', views.CountryViewSet)
 router.register(r'categories', views.CategoriesViewSet)
 router.register(r'posts', views.PostsViewSet)
+router.register(r'users', views.CustomUserViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -30,4 +31,7 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api-token-auth/', av.obtain_auth_token),
     url(r'^api/register/', views.create_user),
+    url(r'^api/starred/', views.starred_posts),
+    url(r'^api/ban/(?P<pk>\d)/', views.ban_user),
+    url(r'^api/unban/(?P<pk>\d)/', views.unban_user),
 ]

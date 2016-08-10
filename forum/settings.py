@@ -108,3 +108,5 @@ REST_FRAMEWORK = {
                 'rest_framework.renderers.JSONRenderer',
                 ),
         }
+
+AUTH_PROFILE_MODULE = 'board_games.models.CustomUser'
