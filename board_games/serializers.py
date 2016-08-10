@@ -14,7 +14,7 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
 class PostsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ('category', 'title', 'subtitle', 'text', 'is_reviewed', 'id')
+        fields = ('category', 'title', 'subtitle', 'text', 'is_reviewed', 'owner', 'id')
 
 class CustomUserSerializer(serializers.ModelSerializer):
     posts = serializers.PrimaryKeyRelatedField(many=True, queryset=Post.objects.all(), default=None)

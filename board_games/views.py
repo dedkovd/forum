@@ -3,10 +3,12 @@ from rest_framework import viewsets
 from rest_framework.decorators import detail_route, api_view
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from board_games.models import *
 from board_games.serializers import *
 
-class CountryViewSet(viewsets.ModelViewSet):
+class CountryViewSet(viewsets.ReadOnlyModelViewSet):
 	queryset = Country.objects.all()
 	serializer_class = CountrySerializer
 
@@ -18,19 +20,25 @@ class CountryViewSet(viewsets.ModelViewSet):
 		return Response(serializer.data)
 
 class PostsViewSet(viewsets.ModelViewSet):
+	authentication_classes = (SessionAuthentication, TokenAuthentication,)
+	permission_classes = (IsAuthenticated,)
 	queryset = Post.objects.all()
 	serializer_class = PostsSerializer
 
 class CategoriesViewSet(viewsets.ModelViewSet):
+	authentication_classes = (SessionAuthentication, TokenAuthentication,)
+	permission_classes = (IsAuthenticated,)
 	queryset = Category.objects.all()
 	serializer_class = CategorySerializer
 
 	@detail_route(methods=['get', 'post'])
 	def posts(self, request, pk):
+		print request.user
 		if request.method == 'POST':
 			data = JSONParser().parse(request)
 			data['category'] = pk
 			data['is_reviewed'] = 'false'
+			data['owner'] = request.user.id
 			serializer = PostsSerializer(data = data)
 			if serializer.is_valid():
 				serializer.save()

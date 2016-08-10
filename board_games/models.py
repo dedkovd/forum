@@ -7,10 +7,11 @@ class Category(models.Model):
 class Post(models.Model):
     category = models.ForeignKey('Category')
     title = models.CharField(max_length=100)
-    subtitle = models.CharField(max_length=100)
+    subtitle = models.CharField(max_length=100, null = True, blank = True)
     text = models.TextField()
-    is_reviewed = models.BooleanField()
-    creator = models.ForeignKey('CustomUser')
+    is_reviewed = models.BooleanField(default = False)
+    owner = models.ForeignKey('CustomUser')
+    replie_to = models.ForeignKey('Post', null = True, blank = True)
 
 class Image(models.Model):
     image_file = models.ImageField(upload_to = 'images/')
@@ -27,6 +28,6 @@ class City(models.Model):
 
 class CustomUser(User):
     city = models.ForeignKey('City')
-    starred_posts = models.ManyToManyField('Post')
+    starred_posts = models.ManyToManyField('Post', blank = True)
 
     objects = UserManager()
