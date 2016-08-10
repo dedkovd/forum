@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import detail_route, api_view
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
 from board_games.models import *
 from board_games.serializers import *
@@ -25,9 +25,16 @@ class PostsViewSet(viewsets.ModelViewSet):
 	queryset = Post.objects.all()
 	serializer_class = PostsSerializer
 
+class IsAdminOrReadOnly(permissions.BasePermission):
+	def has_permission(self, request, view):
+		if request.method in permissions.SAFE_METHODS:
+			return True
+
+		return request.user.is_staff
+
 class CategoriesViewSet(viewsets.ModelViewSet):
 	authentication_classes = (SessionAuthentication, TokenAuthentication,)
-	permission_classes = (IsAuthenticated,)
+	permission_classes = (IsAuthenticated,IsAdminOrReadOnly,)
 	queryset = Category.objects.all()
 	serializer_class = CategorySerializer
 
