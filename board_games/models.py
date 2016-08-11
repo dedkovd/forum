@@ -13,6 +13,10 @@ class Post(models.Model):
     owner = models.ForeignKey('CustomUser')
     reply_to = models.ForeignKey('Post', null = True, blank = True)
 
+    @property
+    def replies(self):
+	    return Post.objects.filter(reply_to = self)
+
 class Image(models.Model):
     image_file = models.ImageField(upload_to = 'images/')
     parent_post = models.ForeignKey('Post')

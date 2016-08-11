@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework_recursive.fields import RecursiveField
 from board_games.models import Country, Category, Post, CustomUser, Image
 
 class CountrySerializer(serializers.HyperlinkedModelSerializer):
@@ -12,9 +13,10 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
         fields = ('category_name','id',)
 
 class PostsSerializer(serializers.ModelSerializer):
+    replies = serializers.ListField(child = RecursiveField(), read_only = True)
     class Meta:
         model = Post
-        fields = ('category', 'title', 'subtitle', 'text', 'is_reviewed', 'owner', 'id', 'reply_to',)
+        fields = ('category', 'title', 'subtitle', 'text', 'is_reviewed', 'owner', 'id', 'reply_to','replies')
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
