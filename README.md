@@ -57,7 +57,10 @@ GET /api/categories/<id>/posts/ # получить все посты в кате
 ```
 
 Дамп базы данных (SQLite) доступен по адресу: http://83.219.30.54/owncloud/index.php/s/j18tYTM4ldJcRDj
+
 Дамп запросов Postman доступен по адресу: http://83.219.30.54/owncloud/index.php/s/31DQEaTQ3V2j3jC
+
 Схема базы данных доступна по адресам:
+
  - JPG http://83.219.30.54/owncloud/index.php/s/hTWcwlN6uec3V6G
  - PDF http://83.219.30.54/owncloud/index.php/s/uewyuiXfgpeE0Id 
