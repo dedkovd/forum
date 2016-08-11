@@ -22,7 +22,7 @@ from board_games import views
 router = routers.DefaultRouter()
 router.register(r'countries', views.CountryViewSet)
 router.register(r'categories', views.CategoriesViewSet)
-router.register(r'posts', views.PostsViewSet)
+router.register(r'posts', views.PostsViewSet, base_name='Posts')
 router.register(r'users', views.CustomUserViewSet)
 
 urlpatterns = [

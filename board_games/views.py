@@ -42,12 +42,18 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 class PostsViewSet(viewsets.ModelViewSet):
 	authentication_classes = (SessionAuthentication, TokenAuthentication,)
 	permission_classes = (IsOwnerOrReadOnly,)
-	queryset = Post.objects.all()
 	serializer_class = PostsSerializer
+
+	def get_queryset(self):
+		is_staff = self.request.user.is_staff
+		if is_staff:
+			return Post.objects.all()
+		else:
+			return Post.objects.filter(is_reviewed = True)
 
 	def update(self, request, pk):
 		post = Post.objects.get(pk = pk)
-		if not IsOwnerOrReadOnly().has_object_permission(request,self, post):
+		if not IsOwnerOrReadOnly().has_object_permission(request,self, post) and not request.user.is_staff:
 			return Response(status = 401)
 		data = JSONParser().parse(request)
 		serializer = PostsSerializer(post, data=data, partial = True)
@@ -109,6 +115,9 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 
 		if request.method == 'GET':
 			posts = Post.objects.filter(category = self.get_object())
+			is_staff = request.user.is_staff
+			if not is_staff:
+				posts = posts.filter(is_reviewed = True)
 
 			serializer = PostsSerializer(posts, many=True)
 			return Response(serializer.data)
