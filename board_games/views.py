@@ -97,7 +97,7 @@ class PostsViewSet(viewsets.ModelViewSet):
 
 class CategoriesViewSet(viewsets.ModelViewSet):
 	authentication_classes = (SessionAuthentication, TokenAuthentication,)
-	permission_classes = (IsAdminOrReadOnly,)
+	permission_classes = (IsAuthenticated,IsAdminOrReadOnly,)
 	queryset = Category.objects.all()
 	serializer_class = CategorySerializer
 
