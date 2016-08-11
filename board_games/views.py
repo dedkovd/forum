@@ -45,6 +45,18 @@ class PostsViewSet(viewsets.ModelViewSet):
 	queryset = Post.objects.all()
 	serializer_class = PostsSerializer
 
+	def update(self, request, pk):
+		post = Post.objects.get(pk = pk)
+		if not IsOwnerOrReadOnly().has_object_permission(request,self, post):
+			return Response(status = 401)
+		data = JSONParser().parse(request)
+		serializer = PostsSerializer(post, data=data, partial = True)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data)
+		else:
+			return Response(serializer.errors, status = 400)
+
 	@detail_route(methods=['post','delete'])
 	def starred(self, request, pk):
 		if request.method == 'POST':
