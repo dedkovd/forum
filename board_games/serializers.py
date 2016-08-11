@@ -16,7 +16,17 @@ class PostsSerializer(serializers.ModelSerializer):
     replies = serializers.ListField(child = RecursiveField(), read_only = True)
     class Meta:
         model = Post
-        fields = ('category', 'title', 'subtitle', 'text', 'is_reviewed', 'owner', 'id', 'reply_to','replies')
+        fields = (
+                  'category', 
+                  'title', 
+                  'subtitle', 
+                  'text', 
+                  'is_reviewed', 
+                  'owner', 
+                  'id', 
+                  'reply_to',
+                  'replies',
+                  )
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:

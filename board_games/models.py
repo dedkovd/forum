@@ -15,11 +15,15 @@ class Post(models.Model):
 
     @property
     def replies(self):
-	    return Post.objects.filter(reply_to = self)
+	    return Post.objects.filter(models.Q(reply_to = self) &
+			               models.Q(is_reviewed = True))
 
 class Image(models.Model):
     image_file = models.ImageField(upload_to = 'images/')
     parent_post = models.ForeignKey('Post')
+
+    def save(self):
+	    print self
 
 class Country(models.Model):
     internal_id = models.IntegerField()

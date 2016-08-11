@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.db.models import Q
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import * 
 from rest_framework.response import Response
@@ -49,7 +50,8 @@ class PostsViewSet(viewsets.ModelViewSet):
 		if is_staff:
 			return Post.objects.all()
 		else:
-			return Post.objects.filter(is_reviewed = True)
+			return Post.objects.filter(Q(is_reviewed = True) | 
+						   Q(owner = self.request.user))
 
 	def update(self, request, pk):
 		post = Post.objects.get(pk = pk)
@@ -117,7 +119,8 @@ class CategoriesViewSet(viewsets.ModelViewSet):
 			posts = Post.objects.filter(category = self.get_object())
 			is_staff = request.user.is_staff
 			if not is_staff:
-				posts = posts.filter(is_reviewed = True)
+				posts = posts.filter(Q(is_reviewed = True) |
+						     Q(owner = request.user))
 
 			serializer = PostsSerializer(posts, many=True)
 			return Response(serializer.data)
