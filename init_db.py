@@ -1,4 +1,12 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+'''
+Вспомогательный модуль для наполнения базы данными о странах
+и городах
+
+Работает достаточно медленно, но с учетом того, что запускается
+один раз - оптимизация бессмысленна.
+'''
 
 import sys, os, csv
 sys.path.append('.')
@@ -8,7 +16,7 @@ from django.conf import settings
 from board_games.models import Country, City
 
 print "Fill countries table"
-with open('country.csv', 'rb') as c:             
+with open('country.csv', 'rb') as c:
     r = csv.reader(c, delimiter=';', quotechar='"')
     next(r, None)
     for row in r:                                  
