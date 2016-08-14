@@ -56,11 +56,11 @@ GET /api/posts/ # получить список всех постов
 GET /api/categories/<id>/posts/ # получить все посты в категории с идентификатором "id"
 ```
 
-Дамп базы данных (SQLite) доступен по адресу: http://83.219.30.54/owncloud/index.php/s/j18tYTM4ldJcRDj
+Дамп базы данных (SQLite) доступен по адресу: https://drive.google.com/open?id=0B0v_-i-STs5bUGtOR0pwVmFVOTA
 
-Дамп запросов Postman доступен по адресу: http://83.219.30.54/owncloud/index.php/s/31DQEaTQ3V2j3jC
+Дамп запросов Postman доступен по адресу: https://drive.google.com/open?id=0B0v_-i-STs5bZUFITzNmel9iX3c
 
 Схема базы данных доступна по адресам:
 
- - JPG http://83.219.30.54/owncloud/index.php/s/hTWcwlN6uec3V6G
- - PDF http://83.219.30.54/owncloud/index.php/s/uewyuiXfgpeE0Id 
+ - JPG https://drive.google.com/open?id=0B0v_-i-STs5bM19xRDhJYWlIZ00
+ - PDF http:https://drive.google.com/open?id=0B0v_-i-STs5bLWtGWTA5NEh2TVE
